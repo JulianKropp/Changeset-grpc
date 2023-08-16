@@ -43,7 +43,7 @@ function main() {
   console.log(`Addr: ${ip}:${port}`);
 
   var server = new grpc.Server();
-  server.addService(services.ChangesetService, {generate: Generate, ping: Ping, exit: Exit});
+  server.addService(services.ChangesetService, {generate: Generate, ping: Ping});
   server.bindAsync(`${ip}:${port}`, grpc.ServerCredentials.createInsecure(), () => {
     server.start();
   });
