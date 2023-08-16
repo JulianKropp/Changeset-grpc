@@ -52,8 +52,8 @@ generate: {
     responseSerialize: serialize_changset_GenerateReply,
     responseDeserialize: deserialize_changset_GenerateReply,
   },
-  exit: {
-    path: '/changset.Changeset/Exit',
+  ping: {
+    path: '/changset.Changeset/Ping',
     requestStream: false,
     responseStream: false,
     requestType: changeset_pb.Nothing,

@@ -8,7 +8,7 @@ package changset;
 service Changeset {
   // Sends a greeting
   rpc Generate (GenerateRequest) returns (GenerateReply) {}
-  rpc Exit (Nothing) returns (Nothing) {}
+  rpc Ping (Nothing) returns (Nothing) {}
 }
 
 // The request message containing the user's name.

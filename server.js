@@ -18,8 +18,10 @@ function Generate(call, callback) {
   callback(null, reply);
 }
 
-function Exit(call, callback) {
-  process.exit();
+function Ping(call, callback) {
+  console.log("Ping");
+  var reply = new messages.Nothing();
+  callback(null, reply);
 }
 
 /**
@@ -41,7 +43,7 @@ function main() {
   console.log(`Addr: ${ip}:${port}`);
 
   var server = new grpc.Server();
-  server.addService(services.ChangesetService, {generate: Generate, exit: Exit});
+  server.addService(services.ChangesetService, {generate: Generate, ping: Ping, exit: Exit});
   server.bindAsync(`${ip}:${port}`, grpc.ServerCredentials.createInsecure(), () => {
     server.start();
   });
@@ -51,6 +53,7 @@ main();
 
 
 var Changeset = require("./etherpad-lite/src/static/js/Changeset");
+const { timeout } = require('async');
 
 function GenerateChangeset(oldtext, newtext, attribs) {
   // init the changeset builder
