@@ -55,9 +55,19 @@ main();
 var Changeset = require("./etherpad-lite/src/static/js/Changeset");
 const { timeout } = require('async');
 
+function countNewlines(str) {
+  return (str.match(/\n/g) || []).length;
+}
+
 function GenerateChangeset(oldtext, newtext, attribs) {
   // init the changeset builder
   var builder = Changeset.builder(oldtext.length);
+
+  if (oldtext != "\n") {
+    if (oldtext.endsWith("\n")) {
+      oldtext = oldtext.slice(0, -1);
+    }
+  }
 
   // find the longest common prefix
   var commonLength = 0;
@@ -68,28 +78,24 @@ function GenerateChangeset(oldtext, newtext, attribs) {
   // keep common prefix
   builder.keep(commonLength);
 
-  // // remove the remaining of the old text
-  // if (commonLength < oldtext.length) {
-  //     builder.remove(oldtext.length - commonLength);
-  // }
+  // remove the remaining of the old text
+  removetextlength = oldtext.length - commonLength;
+  if (oldtext == "\n") {
+    removetextlength -= 1;
+  }
+  var removedNewlines = countNewlines(oldtext.substring(commonLength));
+
+  // remove the remaining of the old text
+  if (removetextlength > 0) {
+      builder.remove(removetextlength, removedNewlines);
+  }
 
   // add the remaining of the new text
   if (commonLength < newtext.length) {
-      builder.insert(newtext.substring(commonLength));
+    var insertedNewlines = countNewlines(newtext.substring(commonLength));
+    builder.insert(newtext.substring(commonLength), null, null, insertedNewlines);
   }
 
   // generate the changeset
   return builder.toString();
 }
-
-// function GenerateChangeset(oldtext, newtext, attribs) {
-//   // init the changeset builder
-//   var builder = Changeset.builder(oldtext.length);
-
-//   // insert the new text
-//   builder.insert(newtext);
-
-//   // generate the changeset
-//   return builder.toString();
-// }
-
