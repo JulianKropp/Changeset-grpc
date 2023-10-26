@@ -60,6 +60,11 @@ function countNewlines(str) {
 }
 
 function GenerateChangeset(oldtext, newtext, attribs) {
+  // Modify oldtext: Add \n to the end if it doesn't have it
+  if (!oldtext.endsWith("\n")) {
+    oldtext += "\n";
+  }
+
   // init the changeset builder
   var builder = Changeset.builder(oldtext.length);
 
