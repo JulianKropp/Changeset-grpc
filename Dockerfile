@@ -6,7 +6,7 @@ COPY changesetproto/* ./changesetproto/
 
 
 # Clone the etherpad-lite repository
-RUN git clone https://github.com/ether/etherpad-lite
+RUN git clone --branch 1.9.7 https://github.com/ether/etherpad-lite
 
 # Install dependencies
 WORKDIR /app/etherpad-lite
