@@ -21,4 +21,4 @@ FROM gcr.io/distroless/nodejs
 
 COPY --from=build /app /
 EXPOSE 5051
-CMD ["server.js", "0.0.0.0", "5051"]
+CMD ["server.js", "0.0.0.0", "50051"]
